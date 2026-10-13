@@ -2,10 +2,6 @@
    CUSTOMER DETAILS
    ========================= */
 
-.customer-row:hover {
-  background: #f9fafb;
-}
-
 .entity-details-page {
   display: flex;
   flex-direction: column;

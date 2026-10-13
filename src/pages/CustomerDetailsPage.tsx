@@ -192,19 +192,19 @@ export default function CustomerDetailsPage({
           <div className="entity-details-summary-item">
             <span>Pedidos realizados</span>
             <strong>{summary.totalOrders}</strong>
-            <small>${formatAmount(summary.totalAmount)}</small>
+            <small>{formatAmount(summary.totalAmount)}</small>
           </div>
 
           <div className="entity-details-summary-item entity-details-summary-paid">
             <span>Pagados</span>
             <strong>{summary.paidOrders}</strong>
-            <small>${formatAmount(summary.paidAmount)}</small>
+            <small>{formatAmount(summary.paidAmount)}</small>
           </div>
 
           <div className="entity-details-summary-item entity-details-summary-pending">
             <span>Pendientes</span>
             <strong>{summary.pendingOrders}</strong>
-            <small>${formatAmount(summary.pendingAmount)}</small>
+            <small>{formatAmount(summary.pendingAmount)}</small>
           </div>
         </div>
       </div>
@@ -269,7 +269,7 @@ export default function CustomerDetailsPage({
                       </td>
 
                       <td>
-                        <strong>${formatAmount(order.total)}</strong>
+                        <strong>{formatAmount(order.total)}</strong>
                       </td>
 
                       <td>
@@ -352,7 +352,7 @@ export default function CustomerDetailsPage({
                   <div className="entity-order-card-summary">
                     <div>
                       <span>Total</span>
-                      <strong>${formatAmount(order.total)}</strong>
+                      <strong>{formatAmount(order.total)}</strong>
                     </div>
 
                     <div>
