@@ -1,0 +1,23 @@
+# Normalizar finales de línea a LF en el repo
+* text=auto eol=lf
+
+# Archivos binarios que NO deben convertirse
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+
+# SVG y fuentes web tratados como texto
+*.svg text
+*.css text
+*.js text
+*.ts text
+*.tsx text
+*.jsx text
+*.json text
+*.md text
