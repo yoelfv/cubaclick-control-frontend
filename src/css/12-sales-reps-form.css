@@ -1,0 +1,112 @@
+/* =========================
+   SALES REPRESENTATIVE FORM
+   ========================= */
+
+.sales-reps-form {
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.sales-reps-form-header {
+  margin-bottom: 20px;
+}
+
+.sales-reps-form-header h3 {
+  margin: 0;
+  color: #111827;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.sales-reps-form-header p {
+  margin: 6px 0 0;
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.sales-reps-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.sales-reps-active-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+  color: #374151;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.sales-reps-active-field input {
+  width: 17px;
+  height: 17px;
+  margin: 0;
+  accent-color: #4338ca;
+}
+
+.sales-reps-form-message {
+  margin: 14px 0 0;
+  color: #b91c1c;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.sales-reps-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.sales-reps-form > .back-button {
+  margin-bottom: 16px;
+}
+
+.sales-reps-initials-field {
+  width: 110px;
+  min-width: 0;
+  max-width: 110px;
+  justify-self: start;
+}
+
+.sales-reps-initials-field input {
+  width: 110px;
+  max-width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+  .sales-reps-form {
+    padding: 14px;
+  }
+
+  .sales-reps-form-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .sales-reps-form-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .sales-reps-form-actions button {
+    width: 100%;
+    min-height: 44px;
+    box-sizing: border-box;
+  }
+}

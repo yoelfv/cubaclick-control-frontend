@@ -1,0 +1,162 @@
+import type { Product } from "../../api/types";
+import type { OrderItemForm } from "../../types/orderForm";
+
+interface OrderItemsEditorProps {
+  orderItems: OrderItemForm[];
+  products: Product[];
+  isLoadingProducts: boolean;
+  productsError: string | null;
+  onChange: (items: OrderItemForm[]) => void;
+}
+
+function OrderItemsEditor({
+  orderItems,
+  products,
+  isLoadingProducts,
+  productsError,
+  onChange,
+}: OrderItemsEditorProps) {
+  const updateItem = (index: number, changes: Partial<OrderItemForm>) => {
+    const newItems = [...orderItems];
+
+    newItems[index] = {
+      ...newItems[index],
+      ...changes,
+    };
+
+    onChange(newItems);
+  };
+
+  const removeItem = (index: number) => {
+    onChange(orderItems.filter((_, itemIndex) => itemIndex !== index));
+  };
+
+  const addItem = () => {
+    onChange([
+      ...orderItems,
+      {
+        productId: "",
+        quantity: "1",
+      },
+    ]);
+  };
+
+  return (
+    <>
+      <div className="order-items">
+        {orderItems.map((orderItem, index) => {
+          const selectedProduct = products.find(
+            (product) => product.id === orderItem.productId,
+          );
+
+          const selectedProductIds = orderItems
+            .filter((_, itemIndex) => itemIndex !== index)
+            .map((item) => item.productId)
+            .filter(Boolean);
+
+          const unitPrice = orderItem.unitPrice ?? selectedProduct?.price ?? 0;
+
+          const subtotal =
+            selectedProduct && orderItem.quantity !== ""
+              ? unitPrice * Number(orderItem.quantity)
+              : 0;
+
+          return (
+            <div className="order-item-row" key={index}>
+              <label className="order-form-field order-item-product">
+                <span>Producto</span>
+
+                <select
+                  value={orderItem.productId}
+                  onChange={(event) =>
+                    updateItem(index, {
+                      productId: event.target.value,
+                      unitPrice: undefined,
+                    })
+                  }
+                >
+                  <option value="" disabled>
+                    {isLoadingProducts
+                      ? "Cargando productos..."
+                      : "Selecciona un producto"}
+                  </option>
+
+                  {!isLoadingProducts &&
+                    !productsError &&
+                    products
+                      .filter(
+                        (product) =>
+                          !selectedProductIds.includes(product.id) ||
+                          product.id === orderItem.productId,
+                      )
+                      .map((product) => (
+                        <option key={product.id} value={product.id}>
+                          {product.name}
+                        </option>
+                      ))}
+                </select>
+
+                {productsError && (
+                  <small className="order-form-field-error">
+                    {productsError}
+                  </small>
+                )}
+              </label>
+
+              <label className="order-form-field order-item-quantity">
+                <span>Cantidad</span>
+
+                <input
+                  type="number"
+                  min="1"
+                  step="1"
+                  value={orderItem.quantity}
+                  onChange={(event) => {
+                    const value = event.target.value;
+
+                    if (value === "" || /^\d+$/.test(value)) {
+                      updateItem(index, {
+                        quantity: value,
+                      });
+                    }
+                  }}
+                />
+              </label>
+
+              <div className="order-item-price">
+                <span>Precio</span>
+                <strong>
+                  ${selectedProduct ? unitPrice.toFixed(2) : "0.00"}
+                </strong>
+              </div>
+
+              <div className="order-item-subtotal">
+                <span>Subtotal</span>
+                <strong>${subtotal.toFixed(2)}</strong>
+              </div>
+
+              <button
+                type="button"
+                className="order-item-remove"
+                aria-label={`Eliminar producto ${index + 1}`}
+                onClick={() => removeItem(index)}
+              >
+                Eliminar
+              </button>
+            </div>
+          );
+        })}
+      </div>
+
+      <button
+        type="button"
+        className="secondary-button order-add-item-button"
+        onClick={addItem}
+      >
+        + Añadir producto
+      </button>
+    </>
+  );
+}
+
+export default OrderItemsEditor;

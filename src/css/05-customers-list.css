@@ -1,0 +1,243 @@
+/* =========================
+   CUSTOMERS
+   ========================= */
+
+.customers-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.customers-page-header h2 {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.customers-page-header p {
+  margin: 6px 0 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.customers-search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.customers-search label {
+  color: #374151;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.customers-search input {
+  width: 320px;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #111827;
+  font: inherit;
+  font-size: 14px;
+}
+
+.customers-search input::placeholder {
+  color: #9ca3af;
+}
+
+.customers-search input:hover {
+  border-color: #9ca3af;
+}
+
+.customers-search input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px #e0e7ff;
+}
+
+.customers-table-wrapper {
+  overflow-x: auto;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+}
+
+.customers-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.customers-table th {
+  padding: 13px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f9fafb;
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.customers-table td {
+  padding: 15px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  color: #374151;
+  font-size: 14px;
+}
+
+.customers-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.customers-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+.customers-table td strong {
+  color: #111827;
+  font-weight: 600;
+}
+
+.customers-empty {
+  padding: 40px 24px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.customers-empty p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.customers-cards {
+  display: none;
+}
+
+.customer-card {
+  padding: 16px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.customer-card-main,
+.customer-card-phone {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.customer-card-phone {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.customer-card span {
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.customer-card strong {
+  color: #111827;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.customer-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.customer-details-button,
+.customer-edit-button {
+  padding: 7px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+  background: #ffffff;
+  color: #374151;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.customer-details-button:hover,
+.customer-edit-button:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+  color: #111827;
+}
+
+.customer-details-button:focus-visible,
+.customer-edit-button:focus-visible {
+  outline: 2px solid #c7d2fe;
+  outline-offset: 2px;
+}
+
+.customer-card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.customer-card-actions button {
+  flex: 1;
+}
+
+/* =========================
+   CUSTOMERS - MOBILE
+   ========================= */
+
+@media (max-width: 768px) {
+  .customers-page {
+    gap: 18px;
+  }
+
+  .customers-page-header h2 {
+    font-size: 22px;
+  }
+
+  .customers-page-header p {
+    font-size: 13px;
+  }
+
+  .customers-search {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .customers-search input {
+    width: 100%;
+  }
+
+  .customers-table-wrapper {
+    display: none;
+  }
+
+  .customers-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .customer-card {
+    border-radius: 10px;
+  }
+}

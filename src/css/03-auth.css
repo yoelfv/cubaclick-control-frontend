@@ -1,0 +1,174 @@
+/* =========================
+   LOGIN
+   ========================= */
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: #f5f6f8;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 32px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.login-card h1 {
+  margin: 0;
+  color: #111827;
+  font-size: 26px;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.login-card > p {
+  margin: 6px 0 28px;
+  color: #6b7280;
+  font-size: 14px;
+  text-align: center;
+}
+
+.login-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.login-card label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.login-card input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #111827;
+  font: inherit;
+  font-size: 14px;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.login-card input:hover {
+  border-color: #9ca3af;
+}
+
+.login-card input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px #e0e7ff;
+}
+
+.login-card form > p {
+  margin: -2px 0 0;
+  padding: 10px 12px;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.login-card button {
+  width: 100%;
+  margin-top: 2px;
+  padding: 10px 14px;
+  border: 1px solid #4338ca;
+  border-radius: 8px;
+  background: #4338ca;
+  color: #ffffff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.login-card button:hover:not(:disabled) {
+  background: #3730a3;
+  border-color: #3730a3;
+}
+
+.login-card button:focus-visible {
+  outline: 2px solid #c7d2fe;
+  outline-offset: 2px;
+}
+
+.login-card button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.password-field {
+  position: relative;
+}
+
+.password-field input {
+  padding-right: 82px;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 4px 6px !important;
+  border: none !important;
+  background: transparent !important;
+  color: #4338ca !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.password-toggle:hover:not(:disabled) {
+  background: transparent !important;
+  color: #3730a3 !important;
+}
+
+.password-toggle:focus-visible {
+  outline: 2px solid #c7d2fe;
+  outline-offset: 1px;
+}
+
+/* =========================
+   LOGIN - MOBILE
+   ========================= */
+
+@media (max-width: 480px) {
+  .login-page {
+    padding: 16px;
+  }
+
+  .login-card {
+    padding: 24px 20px;
+    border-radius: 10px;
+  }
+
+  .login-card h1 {
+    font-size: 24px;
+  }
+}
