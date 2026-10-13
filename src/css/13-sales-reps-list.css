@@ -231,7 +231,7 @@
 }
 
 /* MOBILE. CARDS INSTEAD OF TABLE */
-@media (max-width: 700px) {
+@media (max-width: 768px) {
   .sales-reps-header {
     align-items: stretch;
     flex-direction: column;
