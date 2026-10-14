@@ -1,112 +1,195 @@
 /* =========================
-   SALES REPRESENTATIVE FORM
+   SALES REP FORM (Crear / Editar vendedora)
+   Replica el patrón visual de 11-customer-edit.css
    ========================= */
 
-.sales-reps-form {
-  margin-top: 16px;
-  padding: 16px;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  background: #ffffff;
+.sales-rep-form-page {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
 }
 
-.sales-reps-form-header {
-  margin-bottom: 20px;
+.sales-rep-form-header {
+  margin-bottom: 24px;
 }
 
-.sales-reps-form-header h3 {
-  margin: 0;
+.sales-rep-form-header h2 {
+  margin: 0 0 6px;
   color: #111827;
-  font-size: 18px;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.sales-rep-form-header p {
+  margin: 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.sales-rep-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.sales-rep-form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sales-rep-form-fields label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #334155;
+  font-size: 0.95rem;
   font-weight: 600;
 }
 
-.sales-reps-form-header p {
-  margin: 6px 0 0;
-  color: #6b7280;
-  font-size: 14px;
-  line-height: 1.5;
+.sales-rep-form-fields input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #fff;
+  color: #0f172a;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.sales-reps-form-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+.sales-rep-form-fields input::placeholder {
+  color: #9ca3af;
 }
 
-.sales-reps-active-field {
-  display: flex;
+.sales-rep-form-fields input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgb(37 99 235 / 15%);
+}
+
+.sales-rep-form-fields input:disabled {
+  background: #f1f5f9;
+  cursor: not-allowed;
+}
+
+/* Campo de iniciales (más estrecho y espaciado) */
+
+.sales-rep-form-field-initials {
+  max-width: 140px;
+}
+
+.sales-rep-form-field-initials input {
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+/* Checkbox */
+
+.sales-rep-active-field.sales-rep-active-field {
+  display: inline-flex;
+  flex-direction: row; /* ← fuerza fila, no columna */
   align-items: center;
   gap: 10px;
-  margin-top: 18px;
-  color: #374151;
-  font-size: 14px;
+  width: fit-content;
+  color: #334155;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+}
+
+.sales-rep-active-field.sales-rep-active-field input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  flex-shrink: 0;
+  accent-color: #2563eb;
   cursor: pointer;
 }
 
-.sales-reps-active-field input {
-  width: 17px;
-  height: 17px;
+.sales-rep-active-field.sales-rep-active-field input:disabled {
+  cursor: not-allowed;
+}
+
+.sales-rep-active-field:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.sales-rep-active-field input {
+  width: 18px;
+  height: 18px;
   margin: 0;
-  accent-color: #4338ca;
+  accent-color: #2563eb;
+  cursor: pointer;
 }
 
-.sales-reps-form-message {
-  margin: 14px 0 0;
-  color: #b91c1c;
-  font-size: 14px;
-  line-height: 1.5;
+.sales-rep-active-field input:disabled {
+  cursor: not-allowed;
 }
 
-.sales-reps-form-actions {
+/* Acciones */
+
+.sales-rep-form-actions {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 22px;
+  justify-content: flex-start;
 }
 
-.sales-reps-form > .back-button {
-  margin-bottom: 16px;
+.sales-rep-save-button {
+  min-height: 46px;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    opacity 0.2s ease;
 }
 
-.sales-reps-initials-field {
-  width: 110px;
-  min-width: 0;
-  max-width: 110px;
-  justify-self: start;
+.sales-rep-save-button:hover:not(:disabled) {
+  background: #1d4ed8;
 }
 
-.sales-reps-initials-field input {
-  width: 110px;
-  max-width: 100%;
-  box-sizing: border-box;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+.sales-rep-save-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
 }
 
 /* MOBILE */
 
 @media (max-width: 600px) {
-  .sales-reps-form {
-    padding: 14px;
+  .sales-rep-form-page {
+    max-width: none;
   }
 
-  .sales-reps-form-grid {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 16px;
+  .sales-rep-form {
+    gap: 20px;
   }
 
-  .sales-reps-form-actions {
-    flex-direction: column-reverse;
-    align-items: stretch;
+  .sales-rep-form-fields {
+    gap: 18px;
   }
 
-  .sales-reps-form-actions button {
+  .sales-rep-form-field-initials {
+    max-width: none;
+  }
+
+  .sales-rep-save-button {
     width: 100%;
-    min-height: 44px;
-    box-sizing: border-box;
+    min-height: 48px;
   }
 }

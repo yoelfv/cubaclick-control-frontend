@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createSalesRep, getSalesReps, updateSalesRep } from "../api/salesReps";
 import type { SalesRep } from "../api/types";
+import FormMessage from "../components/common/FormMessage";
 
 export default function SalesRepsPage() {
   const navigate = useNavigate();
@@ -23,7 +24,25 @@ export default function SalesRepsPage() {
   const [initials, setInitials] = useState("");
   const [active, setActive] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
-  const [formMessage, setFormMessage] = useState<string | null>(null);
+  const [formMessage, setFormMessage] = useState<{
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
+
+  const [originalName, setOriginalName] = useState("");
+  const [originalInitials, setOriginalInitials] = useState("");
+  const [originalActive, setOriginalActive] = useState(true);
+
+  const normalizedInitials = initials.trim().toUpperCase();
+
+  const isInitialsValid = /^[A-Z]{3}$/.test(normalizedInitials);
+  const isNameValid = name.trim().length > 0;
+
+  const hasChanges = editingSalesRepId
+    ? name.trim() !== originalName ||
+      normalizedInitials !== originalInitials ||
+      active !== originalActive
+    : isNameValid && isInitialsValid;
 
   const loadSalesReps = useCallback(async () => {
     try {
@@ -79,6 +98,10 @@ export default function SalesRepsPage() {
     setActive(true);
     setEditingSalesRepId(null);
     setFormMessage(null);
+
+    setOriginalName("");
+    setOriginalInitials("");
+    setOriginalActive(true);
   }
 
   function openCreateForm() {
@@ -93,6 +116,11 @@ export default function SalesRepsPage() {
     setActive(salesRep.active);
     setFormMessage(null);
     setIsFormOpen(true);
+
+    // Guardamos los valores originales para detectar cambios
+    setOriginalName(salesRep.name);
+    setOriginalInitials(salesRep.initials);
+    setOriginalActive(salesRep.active);
   }
 
   function closeForm() {
@@ -105,15 +133,20 @@ export default function SalesRepsPage() {
     setFormMessage(null);
 
     const normalizedName = name.trim();
-    const normalizedInitials = initials.trim().toUpperCase();
 
     if (!normalizedName) {
-      setFormMessage("El nombre es obligatorio.");
+      setFormMessage({
+        type: "error",
+        message: "El nombre es obligatorio.",
+      });
       return;
     }
 
     if (!/^[A-Z]{3}$/.test(normalizedInitials)) {
-      setFormMessage("Las iniciales deben contener exactamente 3 letras.");
+      setFormMessage({
+        type: "error",
+        message: "Las iniciales deben contener exactamente 3 letras.",
+      });
       return;
     }
 
@@ -138,7 +171,10 @@ export default function SalesRepsPage() {
       closeForm();
     } catch (err) {
       console.error("Error al guardar la vendedora:", err);
-      setFormMessage("No fue posible guardar la vendedora.");
+      setFormMessage({
+        type: "error",
+        message: "No fue posible guardar la vendedora.",
+      });
     } finally {
       setIsSaving(false);
     }
@@ -226,7 +262,7 @@ export default function SalesRepsPage() {
       )}
 
       {isFormOpen && (
-        <section className="sales-rep-form-section">
+        <div className="sales-rep-form-page">
           <div className="sales-rep-form-header">
             <button
               type="button"
@@ -237,68 +273,71 @@ export default function SalesRepsPage() {
               ← Atrás
             </button>
 
-            <h2>
-              {editingSalesRepId ? "Editar vendedora" : "Nueva vendedora"}
-            </h2>
+            <div>
+              <h2>
+                {editingSalesRepId ? "Editar vendedora" : "Nueva vendedora"}
+              </h2>
+              <p>
+                {editingSalesRepId
+                  ? "Modifica los datos de la vendedora."
+                  : "Registra una nueva vendedora."}
+              </p>
+            </div>
           </div>
 
           <form onSubmit={handleSubmit} className="sales-rep-form">
-            <div className="form-field">
-              <label htmlFor="sales-rep-name">Nombre</label>
-              <input
-                id="sales-rep-name"
-                type="text"
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-                placeholder="Nombre de la vendedora"
-                required
-                disabled={isSaving}
-              />
+            <div className="sales-rep-form-fields">
+              <label>
+                <span>Nombre</span>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                  placeholder="Nombre de la vendedora"
+                  disabled={isSaving}
+                  autoComplete="off"
+                />
+              </label>
+
+              <label className="sales-rep-form-field-initials">
+                <span>Iniciales</span>
+                <input
+                  type="text"
+                  value={initials}
+                  onChange={(event) =>
+                    setInitials(event.target.value.toUpperCase())
+                  }
+                  placeholder="ABC"
+                  maxLength={3}
+                  disabled={isSaving}
+                  autoComplete="off"
+                />
+              </label>
+
+              <label className="sales-rep-active-field">
+                <input
+                  type="checkbox"
+                  checked={active}
+                  onChange={(event) => setActive(event.target.checked)}
+                  disabled={isSaving}
+                />
+                <span>Vendedora activa</span>
+              </label>
             </div>
 
-            <div className="form-field">
-              <label htmlFor="sales-rep-initials">Iniciales</label>
-              <input
-                id="sales-rep-initials"
-                type="text"
-                value={initials}
-                onChange={(event) =>
-                  setInitials(event.target.value.toUpperCase())
-                }
-                placeholder="Ej. ABC"
-                maxLength={3}
-                required
-                disabled={isSaving}
+            {formMessage && (
+              <FormMessage
+                type={formMessage.type}
+                message={formMessage.message}
+                onClose={() => setFormMessage(null)}
               />
-              <small>Introduce exactamente tres letras.</small>
-            </div>
-
-            <label className="sales-rep-active-field">
-              <input
-                type="checkbox"
-                checked={active}
-                onChange={(event) => setActive(event.target.checked)}
-                disabled={isSaving}
-              />
-              Vendedora activa
-            </label>
-
-            {formMessage && <p className="sales-reps-error">{formMessage}</p>}
+            )}
 
             <div className="sales-rep-form-actions">
               <button
-                type="button"
-                className="back-button"
-                onClick={closeForm}
-                disabled={isSaving}
-              >
-                Cancelar
-              </button>
-
-              <button
                 type="submit"
-                className="primary-button"
-                disabled={isSaving}
+                className="sales-rep-save-button"
+                disabled={isSaving || !hasChanges}
               >
                 {isSaving
                   ? "Guardando..."
@@ -308,7 +347,7 @@ export default function SalesRepsPage() {
               </button>
             </div>
           </form>
-        </section>
+        </div>
       )}
 
       {!isFormOpen && (
