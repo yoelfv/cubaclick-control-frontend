@@ -108,12 +108,12 @@ function Dashboard({ onViewChange }: DashboardProps) {
     {
       label: "Pedidos",
       value: String(activeOrders.length),
-      description: "En el período seleccionado",
+      description: "Cantidad de pedidos",
     },
     {
       label: "Ventas",
       value: `$${totalSales.toFixed(2)}`,
-      description: "Total de pedidos",
+      description: "Valor total de pedidos",
     },
     {
       label: "Pendientes",

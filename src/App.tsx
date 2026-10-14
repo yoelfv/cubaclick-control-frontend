@@ -104,20 +104,57 @@ function AppLayout({ onLogout }: AppLayoutProps) {
   const location = useLocation();
   const { pathname, search } = location;
 
-  const getCurrentView = (): View => {
-    if (pathname === "/") return "dashboard";
-    if (pathname === "/orders") return "orders";
-    if (pathname === "/orders/new") return "orderForm";
-    if (pathname.endsWith("/edit")) return "orderForm";
-    if (pathname.startsWith("/orders/")) return "orderDetails";
-    if (pathname === "/customers") return "customers";
-    if (pathname === "/sales-reps") return "salesReps";
-    if (pathname === "/statistics") return "statistics";
-
+  /**
+   * Vista principal para el Sidebar.
+   * Debe devolver SIEMPRE uno de los 5 valores del menú principal:
+   * "dashboard" | "orders" | "customers" | "salesReps" | "statistics"
+   * Las subrutas heredan la vista de su sección padre.
+   */
+  const getSidebarView = (): View => {
+    if (pathname === "/orders" || pathname.startsWith("/orders/")) {
+      return "orders";
+    }
+    if (pathname === "/customers" || pathname.startsWith("/customers/")) {
+      return "customers";
+    }
+    if (pathname === "/sales-reps" || pathname.startsWith("/sales-reps/")) {
+      return "salesReps";
+    }
+    if (pathname === "/statistics") {
+      return "statistics";
+    }
     return "dashboard";
   };
 
-  const currentView = getCurrentView();
+  /**
+   * Título a mostrar en el Topbar. Puede ser más específico que la vista
+   * del sidebar (por ejemplo: "Nuevo pedido" en lugar de "Pedidos").
+   */
+  const getPageTitle = (): string => {
+    // Pedidos
+    if (pathname === "/orders/new") return "Nuevo pedido";
+    if (/^\/orders\/[^/]+\/edit$/.test(pathname)) return "Editar pedido";
+    if (/^\/orders\/[^/]+$/.test(pathname)) return "Detalles del pedido";
+    if (pathname === "/orders") return "Pedidos";
+
+    // Clientes
+    if (/^\/customers\/[^/]+\/edit$/.test(pathname)) return "Editar cliente";
+    if (/^\/customers\/[^/]+$/.test(pathname)) return "Detalles del cliente";
+    if (pathname === "/customers") return "Clientes";
+
+    // Vendedoras
+    if (/^\/sales-reps\/[^/]+$/.test(pathname))
+      return "Detalles de la vendedora";
+    if (pathname === "/sales-reps") return "Vendedoras";
+
+    // Estadísticas
+    if (pathname === "/statistics") return "Estadísticas";
+
+    // Dashboard por defecto
+    return "Dashboard";
+  };
+
+  const currentView = getSidebarView();
 
   const handleViewChange = (view: View) => {
     switch (view) {
@@ -137,27 +174,7 @@ function AppLayout({ onLogout }: AppLayoutProps) {
         navigate("/statistics");
         break;
     }
-
     setIsSidebarOpen(false);
-  };
-
-  const getPageTitle = () => {
-    switch (currentView) {
-      case "orders":
-        return "Pedidos";
-      case "orderForm":
-        return pathname === "/orders/new" ? "Nuevo pedido" : "Editar pedido";
-      case "orderDetails":
-        return "Detalles del pedido";
-      case "customers":
-        return "Clientes";
-      case "salesReps":
-        return "Vendedoras";
-      case "statistics":
-        return "Estadísticas";
-      default:
-        return "Dashboard";
-    }
   };
 
   return (

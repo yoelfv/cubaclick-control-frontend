@@ -82,7 +82,7 @@ export default function CustomersPage({
     <div className="customers-page">
       <div className="customers-page-header">
         <div>
-          <h2>Clientes</h2>
+          <h2>Listado de Clientes</h2>
           <p>Consulta los clientes registrados en Cubaclick.</p>
         </div>
       </div>

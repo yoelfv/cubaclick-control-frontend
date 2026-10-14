@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { getOrders } from "../api/orders";
 import type { Order } from "../api/types";
 import OrderCard from "../components/orders/OrderCard";
+import { getHavanaToday } from "../utils/date";
 
 interface OrdersPageProps {
   onNewOrder: () => void;
@@ -92,6 +93,7 @@ function OrdersPage({
             const newDate = event.target.value;
             setSearchParams({ date: newDate });
           }}
+          max={getHavanaToday()}
         />
       </div>
 
