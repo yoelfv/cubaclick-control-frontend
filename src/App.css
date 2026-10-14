@@ -9,30 +9,18 @@
  */
 
 @import "./css/01-base-layout.css";
-
 @import "./css/02-dashboard.css";
 @import "./css/02b-dashboard-recent-orders.css";
-
 @import "./css/03-auth.css";
-
 @import "./css/04-orders-list.css";
-
 @import "./css/05-customers-list.css";
-
 @import "./css/06-order-form.css";
-
 @import "./css/07-orders-cards-details.css";
-
 @import "./css/08-entity-details-overview.css";
-
 @import "./css/09-navigation-buttons.css";
-
 @import "./css/10-entity-orders-history.css";
-
 @import "./css/11-customer-edit.css";
-
 @import "./css/12-sales-reps-form.css";
-
 @import "./css/13-sales-reps-list.css";
-
 @import "./css/14-sales-reps-details.css";
+@import "./css/15-statistics.css";

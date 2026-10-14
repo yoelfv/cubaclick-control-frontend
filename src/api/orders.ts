@@ -1,5 +1,12 @@
 import { apiFetch } from "./client";
-import type { Order, StrapiOrder, StrapiResponse } from "./types";
+import type {
+  Order,
+  StrapiOrder,
+  StrapiResponse,
+  DailyStat,
+  StatisticsSummary,
+  StatisticsResponse,
+} from "./types";
 
 function mapOrder(order: StrapiOrder): Order {
   return {
@@ -314,4 +321,40 @@ export async function cancelOrder(id: string): Promise<CancelOrderResponse> {
   return apiFetch<CancelOrderResponse>(`/orders/${id}/cancel`, {
     method: "PUT",
   });
+}
+
+export async function getStatistics(
+  options: {
+    dateFrom?: string;
+    dateTo?: string;
+    page?: number;
+    pageSize?: number;
+  } = {},
+): Promise<StatisticsResponse> {
+  const params = new URLSearchParams();
+
+  if (options.dateFrom) params.set("dateFrom", options.dateFrom);
+  if (options.dateTo) params.set("dateTo", options.dateTo);
+  if (options.page !== undefined) params.set("page", String(options.page));
+  if (options.pageSize !== undefined) {
+    params.set("pageSize", String(options.pageSize));
+  }
+
+  const queryString = params.toString();
+
+  const response = await apiFetch<{
+    data: {
+      summary: StatisticsSummary;
+      daily: DailyStat[];
+    };
+    meta: {
+      pagination: StatisticsResponse["pagination"];
+    };
+  }>(`/orders/statistics${queryString ? `?${queryString}` : ""}`);
+
+  return {
+    summary: response.data.summary,
+    daily: response.data.daily,
+    pagination: response.meta.pagination,
+  };
 }

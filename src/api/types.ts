@@ -88,3 +88,31 @@ export interface Order {
   cancelled: boolean;
   orderItems: OrderItem[];
 }
+
+export interface DailyStat {
+  date: string; // YYYY-MM-DD
+  orders: number;
+  total: number;
+  paid: number;
+  pending: number;
+}
+
+export interface StatisticsSummary {
+  totalOrders: number;
+  totalAmount: number;
+  paidOrders: number;
+  paidAmount: number;
+  pendingOrders: number;
+  pendingAmount: number;
+}
+
+export interface StatisticsResponse {
+  summary: StatisticsSummary;
+  daily: DailyStat[];
+  pagination: {
+    page: number;
+    pageSize: number;
+    pageCount: number;
+    total: number;
+  };
+}
