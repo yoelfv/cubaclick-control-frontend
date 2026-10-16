@@ -92,24 +92,6 @@
   font-weight: 600;
 }
 
-.sidebar-logout {
-  margin-top: auto;
-  padding: 16px;
-  border: none;
-  border-top: 1px solid #e5e7eb;
-  background: transparent;
-  color: #6b7280;
-  font: inherit;
-  font-size: 14px;
-  text-align: left;
-  cursor: pointer;
-}
-
-.sidebar-logout:hover {
-  color: #374151;
-  background: #f9fafb;
-}
-
 .sidebar-overlay {
   display: none;
 }
@@ -161,19 +143,123 @@
   background: #f3f4f6;
 }
 
+/* User menu */
+
 .topbar-user {
+  position: relative;
   margin-left: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  color: #374151;
-  font-size: 14px;
 }
 
-.topbar-user span:last-child {
-  margin-top: 2px;
+.topbar-user-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px 6px 6px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: #374151;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.topbar-user-button:hover {
+  background: #f3f4f6;
+  border-color: #e5e7eb;
+}
+
+.topbar-user-button:focus-visible {
+  outline: 2px solid #c7d2fe;
+  outline-offset: 2px;
+}
+
+.topbar-user-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #4338ca;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.topbar-user-name {
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.topbar-user-chevron {
+  color: #6b7280;
+  font-size: 11px;
+}
+
+/* Dropdown menu */
+
+.topbar-user-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 220px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  z-index: 50;
+}
+
+.topbar-user-menu-header {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 12px 14px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.topbar-user-menu-header strong {
+  color: #111827;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.topbar-user-menu-header span {
   color: #6b7280;
   font-size: 12px;
+}
+
+.topbar-user-menu-logout {
+  display: block;
+  width: 100%;
+  padding: 11px 14px;
+  border: none;
+  background: transparent;
+  color: #b91c1c;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.topbar-user-menu-logout:hover {
+  background: #fef2f2;
+}
+
+.topbar-user-menu-logout:focus-visible {
+  outline: 2px solid #fecaca;
+  outline-offset: -2px;
 }
 
 /* =========================
@@ -201,13 +287,11 @@
   color: #6b7280;
 }
 
-
 /* =========================
    APP SHELL - TABLET / MOBILE
    ========================= */
 
 @media (max-width: 768px) {
-
   .sidebar {
     position: fixed;
     top: 0;
@@ -247,7 +331,7 @@
     font-size: 19px;
   }
 
-  .topbar-user {
+  .topbar-user-name {
     display: none;
   }
 
@@ -270,7 +354,6 @@
    ========================= */
 
 @media (max-width: 480px) {
-
   .sidebar {
     width: 270px;
   }

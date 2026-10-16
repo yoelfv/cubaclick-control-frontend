@@ -1,51 +1,40 @@
 export type View =
-  | 'dashboard'
-  | 'orders'
-  | 'orderForm'
+  | "dashboard"
+  | "orders"
+  | "orderForm"
   | "orderDetails"
-  | 'customers'
-  | 'salesReps'
-  | 'statistics'
+  | "customers"
+  | "salesReps"
+  | "statistics";
 
 interface SidebarProps {
-  currentView: View
-  onViewChange: (view: View) => void
-  isOpen: boolean
-  onClose: () => void
-  onLogout: () => void
+  currentView: View;
+  onViewChange: (view: View) => void;
+  isOpen: boolean;
+  onClose: () => void;
 }
 
 const menuItems: { id: View; label: string }[] = [
-  { id: 'dashboard', label: 'Dashboard' },
-  { id: 'orders', label: 'Pedidos' },
-  { id: 'customers', label: 'Clientes' },
-  { id: 'salesReps', label: 'Vendedoras' },
-  { id: 'statistics', label: 'Estadísticas' },
-]
+  { id: "dashboard", label: "Dashboard" },
+  { id: "orders", label: "Pedidos" },
+  { id: "customers", label: "Clientes" },
+  { id: "salesReps", label: "Vendedoras" },
+  { id: "statistics", label: "Estadísticas" },
+];
 
-function Sidebar({
-  currentView,
-  onViewChange,
-  isOpen,
-  onClose,
-  onLogout,
-}: SidebarProps) {
+function Sidebar({ currentView, onViewChange, isOpen, onClose }: SidebarProps) {
   const handleViewChange = (view: View) => {
-    onViewChange(view)
-    onClose()
-  }
+    onViewChange(view);
+    onClose();
+  };
 
   return (
     <>
       {isOpen && (
-        <div
-          className="sidebar-overlay"
-          onClick={onClose}
-          aria-hidden="true"
-        />
+        <div className="sidebar-overlay" onClick={onClose} aria-hidden="true" />
       )}
 
-      <aside className={`sidebar ${isOpen ? 'sidebar-open' : ''}`}>
+      <aside className={`sidebar ${isOpen ? "sidebar-open" : ""}`}>
         <div className="sidebar-brand">
           <div className="sidebar-logo">C</div>
 
@@ -60,7 +49,7 @@ function Sidebar({
             <button
               key={item.id}
               className={`sidebar-item ${
-                currentView === item.id ? 'sidebar-item-active' : ''
+                currentView === item.id ? "sidebar-item-active" : ""
               }`}
               onClick={() => handleViewChange(item.id)}
             >
@@ -68,13 +57,9 @@ function Sidebar({
             </button>
           ))}
         </nav>
-
-        <button className="sidebar-logout" onClick={onLogout}>
-          Cerrar sesión
-        </button>
       </aside>
     </>
-  )
+  );
 }
 
-export default Sidebar
+export default Sidebar;

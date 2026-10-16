@@ -12,6 +12,39 @@ export function getAuthToken(): string | null {
 
 export function clearAuthToken() {
   localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(USER_KEY);
+}
+
+const USER_KEY = "cubaclick_auth_user";
+
+export interface StoredUser {
+  id: number;
+  username: string;
+  email: string;
+  role?: {
+    id: number;
+    name: string;
+    type: string;
+  };
+}
+
+export function setAuthUser(user: StoredUser) {
+  localStorage.setItem(USER_KEY, JSON.stringify(user));
+}
+
+export function getAuthUser(): StoredUser | null {
+  const raw = localStorage.getItem(USER_KEY);
+  if (!raw) return null;
+
+  try {
+    return JSON.parse(raw) as StoredUser;
+  } catch {
+    return null;
+  }
+}
+
+export function clearAuthUser() {
+  localStorage.removeItem(USER_KEY);
 }
 
 export async function apiFetch<T>(

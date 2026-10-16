@@ -184,13 +184,13 @@ function AppLayout({ onLogout }: AppLayoutProps) {
         onViewChange={handleViewChange}
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
-        onLogout={onLogout}
       />
 
       <main className="main-content">
         <Topbar
           title={getPageTitle()}
           onMenuClick={() => setIsSidebarOpen(true)}
+          onLogout={onLogout}
         />
 
         <section className="content">
