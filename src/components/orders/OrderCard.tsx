@@ -1,4 +1,5 @@
 import type { Order } from "../../api/types";
+import { useAuthUser } from "../../hooks/useAuthUser";
 
 interface OrderCardProps {
   order: Order;
@@ -7,6 +8,7 @@ interface OrderCardProps {
 }
 
 function OrderCard({ order, onViewDetails, onEditOrder }: OrderCardProps) {
+  const { canEdit } = useAuthUser();
   const cardClassName = order.cancelled
     ? "order-card order-card-cancelled"
     : "order-card";
@@ -71,7 +73,7 @@ function OrderCard({ order, onViewDetails, onEditOrder }: OrderCardProps) {
           Detalles
         </button>
 
-        {!order.cancelled && (
+        {!order.cancelled && canEdit && (
           <button
             type="button"
             className="order-edit-button"

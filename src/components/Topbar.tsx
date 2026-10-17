@@ -7,13 +7,20 @@ interface TopbarProps {
   onLogout: () => void;
 }
 
+const ROLE_LABELS: Record<string, string> = {
+  administrator: "Administradora",
+  viewer: "Dueña",
+};
+
 function Topbar({ title, onMenuClick, onLogout }: TopbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   const user = getAuthUser();
   const username = user?.username ?? "Usuario";
-  const roleName = user?.role?.name ?? "Usuario";
+  const roleName = user?.role?.type
+    ? (ROLE_LABELS[user.role.type] ?? user.role.name)
+    : "Usuario";
 
   // Cerrar el menú al hacer click fuera
   useEffect(() => {

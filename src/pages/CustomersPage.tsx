@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { getCustomers } from "../api/customers";
 import type { Customer } from "../api/types";
+import { useAuthUser } from "../hooks/useAuthUser";
 
 interface CustomersPageProps {
   onViewDetails: (customerId: string) => void;
@@ -15,6 +16,7 @@ export default function CustomersPage({
   const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  const { canEdit } = useAuthUser();
 
   useEffect(() => {
     async function load() {
@@ -135,13 +137,15 @@ export default function CustomersPage({
                           Detalles
                         </button>
 
-                        <button
-                          type="button"
-                          className="customer-edit-button"
-                          onClick={() => handleEdit(customer.id)}
-                        >
-                          Editar
-                        </button>
+                        {canEdit && (
+                          <button
+                            type="button"
+                            className="customer-edit-button"
+                            onClick={() => handleEdit(customer.id)}
+                          >
+                            Editar
+                          </button>
+                        )}
                       </div>
                     </td>
                   </tr>
@@ -172,13 +176,15 @@ export default function CustomersPage({
                     Detalles
                   </button>
 
-                  <button
-                    type="button"
-                    className="customer-edit-button"
-                    onClick={() => handleEdit(customer.id)}
-                  >
-                    Editar
-                  </button>
+                  {canEdit && (
+                    <button
+                      type="button"
+                      className="customer-edit-button"
+                      onClick={() => handleEdit(customer.id)}
+                    >
+                      Editar
+                    </button>
+                  )}
                 </div>
               </article>
             ))}

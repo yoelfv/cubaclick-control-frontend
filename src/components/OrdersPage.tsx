@@ -4,6 +4,7 @@ import { getOrders } from "../api/orders";
 import type { Order } from "../api/types";
 import OrderCard from "../components/orders/OrderCard";
 import { getHavanaToday } from "../utils/date";
+import { useAuthUser } from "../hooks/useAuthUser";
 
 interface OrdersPageProps {
   onNewOrder: () => void;
@@ -31,6 +32,7 @@ function OrdersPage({
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { canEdit } = useAuthUser();
 
   useEffect(() => {
     if (!searchParams.get("date")) {
@@ -77,10 +79,15 @@ function OrdersPage({
           <h2>Pedidos</h2>
           <p>Gestiona los pedidos registrados en Cubaclick.</p>
         </div>
-
-        <button type="button" className="secondary-button" onClick={onNewOrder}>
-          + Nuevo pedido
-        </button>
+        {canEdit && (
+          <button
+            type="button"
+            className="secondary-button"
+            onClick={onNewOrder}
+          >
+            + Nuevo pedido
+          </button>
+        )}
       </div>
 
       <div className="orders-date-filter">
@@ -190,7 +197,7 @@ function OrdersPage({
                           Detalles
                         </button>
 
-                        {!order.cancelled && (
+                        {!order.cancelled && canEdit && (
                           <button
                             type="button"
                             className="order-edit-button"

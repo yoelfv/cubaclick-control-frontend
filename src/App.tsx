@@ -18,11 +18,13 @@ import { clearAuthToken, getAuthToken } from "./api/client";
 import OrderFormPage from "./pages/OrderFormPage";
 import OrderDetailsPage from "./pages/OrderDetailsPage";
 import SalesRepsPage from "./pages/SalesRepsPage";
+import SalesRepEditPage from "./pages/SalesRepEditPage";
 import CustomersPage from "./pages/CustomersPage";
 import StatisticsPage from "./pages/StatisticsPage";
 import CustomerDetailsPage from "./pages/CustomerDetailsPage";
 import SalesRepDetailsPage from "./pages/SalesRepDetailsPage";
 import CustomerEditPage from "./pages/CustomerEditPage";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 interface AppLayoutProps {
   onLogout: () => void;
@@ -53,7 +55,6 @@ function OrderDetailsRoute() {
 
 function CustomerDetailsRoute() {
   const { id } = useParams();
-
   const navigate = useNavigate();
 
   return (
@@ -98,18 +99,24 @@ function SalesRepDetailsRoute() {
   );
 }
 
+function SalesRepEditRoute() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  return (
+    <SalesRepEditPage
+      salesRepId={id ?? null}
+      onBack={() => navigate("/sales-reps")}
+    />
+  );
+}
+
 function AppLayout({ onLogout }: AppLayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const { pathname, search } = location;
 
-  /**
-   * Vista principal para el Sidebar.
-   * Debe devolver SIEMPRE uno de los 5 valores del menú principal:
-   * "dashboard" | "orders" | "customers" | "salesReps" | "statistics"
-   * Las subrutas heredan la vista de su sección padre.
-   */
   const getSidebarView = (): View => {
     if (pathname === "/orders" || pathname.startsWith("/orders/")) {
       return "orders";
@@ -126,10 +133,6 @@ function AppLayout({ onLogout }: AppLayoutProps) {
     return "dashboard";
   };
 
-  /**
-   * Título a mostrar en el Topbar. Puede ser más específico que la vista
-   * del sidebar (por ejemplo: "Nuevo pedido" en lugar de "Pedidos").
-   */
   const getPageTitle = (): string => {
     // Pedidos
     if (pathname === "/orders/new") return "Nuevo pedido";
@@ -143,6 +146,8 @@ function AppLayout({ onLogout }: AppLayoutProps) {
     if (pathname === "/customers") return "Clientes";
 
     // Vendedoras
+    if (pathname === "/sales-reps/new") return "Nueva vendedora";
+    if (/^\/sales-reps\/[^/]+\/edit$/.test(pathname)) return "Editar vendedora";
     if (/^\/sales-reps\/[^/]+$/.test(pathname))
       return "Detalles de la vendedora";
     if (pathname === "/sales-reps") return "Vendedoras";
@@ -174,6 +179,7 @@ function AppLayout({ onLogout }: AppLayoutProps) {
         navigate("/statistics");
         break;
     }
+
     setIsSidebarOpen(false);
   };
 
@@ -218,20 +224,57 @@ function AppLayout({ onLogout }: AppLayoutProps) {
             <Route
               path="/orders/new"
               element={
-                <OrderFormPage
-                  onBack={() => navigate(`/orders${location.search}`)}
-                  orderId={null}
-                />
+                <ProtectedRoute requiresEdit>
+                  <OrderFormPage
+                    onBack={() => navigate(`/orders${location.search}`)}
+                    orderId={null}
+                  />
+                </ProtectedRoute>
               }
             />
 
-            <Route path="/orders/:id/edit" element={<EditOrderRoute />} />
+            <Route
+              path="/orders/:id/edit"
+              element={
+                <ProtectedRoute requiresEdit>
+                  <EditOrderRoute />
+                </ProtectedRoute>
+              }
+            />
 
             <Route path="/orders/:id" element={<OrderDetailsRoute />} />
 
-            <Route path="/customers/:id/edit" element={<CustomerEditRoute />} />
+            <Route
+              path="/customers/:id/edit"
+              element={
+                <ProtectedRoute requiresEdit>
+                  <CustomerEditRoute />
+                </ProtectedRoute>
+              }
+            />
 
             <Route path="/customers/:id" element={<CustomerDetailsRoute />} />
+
+            <Route
+              path="/sales-reps/new"
+              element={
+                <ProtectedRoute requiresEdit>
+                  <SalesRepEditPage
+                    salesRepId={null}
+                    onBack={() => navigate("/sales-reps")}
+                  />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/sales-reps/:id/edit"
+              element={
+                <ProtectedRoute requiresEdit>
+                  <SalesRepEditRoute />
+                </ProtectedRoute>
+              }
+            />
 
             <Route path="/sales-reps/:id" element={<SalesRepDetailsRoute />} />
 

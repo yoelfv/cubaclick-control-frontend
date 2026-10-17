@@ -1,6 +1,6 @@
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:1337/api";
-
 const TOKEN_KEY = "cubaclick_auth_token";
+const USER_KEY = "cubaclick_auth_user";
 
 export function setAuthToken(token: string) {
   localStorage.setItem(TOKEN_KEY, token);
@@ -13,19 +13,6 @@ export function getAuthToken(): string | null {
 export function clearAuthToken() {
   localStorage.removeItem(TOKEN_KEY);
   localStorage.removeItem(USER_KEY);
-}
-
-const USER_KEY = "cubaclick_auth_user";
-
-export interface StoredUser {
-  id: number;
-  username: string;
-  email: string;
-  role?: {
-    id: number;
-    name: string;
-    type: string;
-  };
 }
 
 export function setAuthUser(user: StoredUser) {
@@ -45,6 +32,18 @@ export function getAuthUser(): StoredUser | null {
 
 export function clearAuthUser() {
   localStorage.removeItem(USER_KEY);
+}
+
+export interface StoredUser {
+  id: number;
+  documentId: string;
+  username: string;
+  email: string;
+  role: {
+    id: number;
+    name: string;
+    type: string;
+  } | null;
 }
 
 export async function apiFetch<T>(
