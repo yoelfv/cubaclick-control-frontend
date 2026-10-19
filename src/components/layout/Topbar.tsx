@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { getAuthUser } from "../api/client";
+import { getAuthUser } from "../../api/client";
 
 interface TopbarProps {
   title: string;

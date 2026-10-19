@@ -9,11 +9,11 @@ import {
   useParams,
 } from "react-router-dom";
 import "./App.css";
-import Sidebar, { type View } from "./components/Sidebar";
-import Topbar from "./components/Topbar";
-import Dashboard from "./components/DashboardPage";
-import OrdersPage from "./components/OrdersPage";
-import LoginPage from "./components/LoginPage";
+import Sidebar, { type View } from "./components/layout/Sidebar";
+import Topbar from "./components/layout/Topbar";
+import Dashboard from "./pages/DashboardPage";
+import OrdersPage from "./pages/OrdersPage";
+import LoginPage from "./pages/LoginPage";
 import { clearAuthToken, getAuthToken } from "./api/client";
 import OrderFormPage from "./pages/OrderFormPage";
 import OrderDetailsPage from "./pages/OrderDetailsPage";
@@ -24,7 +24,7 @@ import StatisticsPage from "./pages/StatisticsPage";
 import CustomerDetailsPage from "./pages/CustomerDetailsPage";
 import SalesRepDetailsPage from "./pages/SalesRepDetailsPage";
 import CustomerEditPage from "./pages/CustomerEditPage";
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./components/layout/ProtectedRoute";
 
 interface AppLayoutProps {
   onLogout: () => void;
