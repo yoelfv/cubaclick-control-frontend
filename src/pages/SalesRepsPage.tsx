@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { getSalesReps, updateSalesRep } from "../api/salesReps";
 import type { SalesRep } from "../api/types";
 import { useAuthUser } from "../hooks/useAuthUser";
+import LoadingState from "../components/common/LoadingState";
+import ConfirmDialog from "../components/common/ConfirmDialog";
 
 export default function SalesRepsPage() {
   const navigate = useNavigate();
@@ -15,6 +17,9 @@ export default function SalesRepsPage() {
   const [salesRepFilter, setSalesRepFilter] = useState<"active" | "inactive">(
     "active",
   );
+
+  const [salesRepToReactivate, setSalesRepToReactivate] =
+    useState<SalesRep | null>(null);
 
   const loadSalesReps = useCallback(async () => {
     try {
@@ -63,7 +68,12 @@ export default function SalesRepsPage() {
     salesRepFilter === "active" ? salesRep.active : !salesRep.active,
   );
 
-  async function handleReactivate(salesRep: SalesRep) {
+  async function handleConfirmReactivate() {
+    if (!salesRepToReactivate) return;
+
+    const salesRep = salesRepToReactivate;
+    setSalesRepToReactivate(null);
+
     try {
       setError(null);
 
@@ -105,7 +115,7 @@ export default function SalesRepsPage() {
           <button
             type="button"
             className="order-edit-button"
-            onClick={() => handleReactivate(salesRep)}
+            onClick={() => setSalesRepToReactivate(salesRep)}
           >
             Reactivar
           </button>
@@ -147,7 +157,7 @@ export default function SalesRepsPage() {
       </div>
 
       {isLoading ? (
-        <p>Cargando vendedoras...</p>
+        <LoadingState message="Cargando vendedoras..." />
       ) : error ? (
         <p className="sales-reps-error">{error}</p>
       ) : filteredSalesReps.length === 0 ? (
@@ -212,6 +222,17 @@ export default function SalesRepsPage() {
           </div>
         </>
       )}
+
+      <ConfirmDialog
+        isOpen={salesRepToReactivate !== null}
+        title="Reactivar vendedora"
+        message={`¿Seguro que quieres reactivar a ${salesRepToReactivate?.name ?? ""}? Volverá a estar activa y podrá recibir pedidos nuevos.`}
+        confirmLabel="Sí, reactivar"
+        cancelLabel="No, volver"
+        variant="default"
+        onConfirm={handleConfirmReactivate}
+        onCancel={() => setSalesRepToReactivate(null)}
+      />
     </div>
   );
 }

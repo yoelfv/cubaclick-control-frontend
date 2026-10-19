@@ -28,16 +28,3 @@ export function addDays(date: string, days: number): string {
     String(result.getUTCDate()).padStart(2, "0"),
   ].join("-");
 }
-
-/**
- * Convierte "2026-10-12" → "12/10/2026".
- * Si la cadena no tiene el formato esperado, la devuelve tal cual.
- */
-export function formatDate(date: string): string {
-  if (!date) return "—";
-
-  const [year, month, day] = date.slice(0, 10).split("-");
-  if (!year || !month || !day) return date;
-
-  return `${day}/${month}/${year}`;
-}

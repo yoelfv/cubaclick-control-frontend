@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getOrderById } from "../api/orders";
 import type { Order } from "../api/types";
+import LoadingState from "../components/common/LoadingState";
 
 interface OrderDetailsPageProps {
   orderId: string;
@@ -32,7 +33,7 @@ function OrderDetailsPage({ orderId, onBack }: OrderDetailsPageProps) {
   }, [orderId]);
 
   if (isLoading) {
-    return <p>Cargando detalles del pedido...</p>;
+    return <LoadingState message="Cargando detalles del pedido..." />;
   }
 
   if (error || !order) {

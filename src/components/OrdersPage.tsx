@@ -5,6 +5,7 @@ import type { Order } from "../api/types";
 import OrderCard from "../components/orders/OrderCard";
 import { getHavanaToday } from "../utils/date";
 import { useAuthUser } from "../hooks/useAuthUser";
+import LoadingState from "../components/common/LoadingState";
 
 interface OrdersPageProps {
   onNewOrder: () => void;
@@ -105,7 +106,7 @@ function OrdersPage({
       </div>
 
       {isLoading ? (
-        <p>Cargando pedidos...</p>
+        <LoadingState message="Cargando pedidos..." />
       ) : error ? (
         <p>{error}</p>
       ) : orders.length === 0 ? (

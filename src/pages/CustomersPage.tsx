@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { getCustomers } from "../api/customers";
 import type { Customer } from "../api/types";
 import { useAuthUser } from "../hooks/useAuthUser";
+import LoadingState from "../components/common/LoadingState";
 
 interface CustomersPageProps {
   onViewDetails: (customerId: string) => void;
@@ -73,7 +74,7 @@ export default function CustomersPage({
   };
 
   if (isLoading) {
-    return <p>Cargando clientes...</p>;
+    return <LoadingState message="Cargando clientes..." />;
   }
 
   if (error) {

@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { getCustomerById, updateCustomer } from "../api/customers";
 import FormMessage from "../components/common/FormMessage";
 import type { Customer } from "../api/types";
+import LoadingState from "../components/common/LoadingState";
+import ConfirmDialog from "../components/common/ConfirmDialog";
 
 interface CustomerEditPageProps {
   customerId: string;
@@ -24,6 +26,7 @@ export default function CustomerEditPage({
     type: "success" | "error";
     message: string;
   } | null>(null);
+  const [isLeaveDialogOpen, setIsLeaveDialogOpen] = useState(false);
 
   useEffect(() => {
     async function loadCustomer() {
@@ -104,7 +107,7 @@ export default function CustomerEditPage({
   };
 
   if (isLoading) {
-    return <p>Cargando cliente...</p>;
+    return <LoadingState message="Cargando cliente..." />;
   }
   if (!customer) {
     return (
@@ -123,10 +126,19 @@ export default function CustomerEditPage({
       </div>
     );
   }
+
+  function handleBack() {
+    if (hasChanges) {
+      setIsLeaveDialogOpen(true);
+    } else {
+      onBack();
+    }
+  }
+
   return (
     <div className="customer-edit-page">
       <div className="customer-edit-header">
-        <button type="button" className="back-button" onClick={onBack}>
+        <button type="button" className="back-button" onClick={handleBack}>
           ← Atrás
         </button>
 
@@ -179,6 +191,19 @@ export default function CustomerEditPage({
           </button>
         </div>
       </form>
+      <ConfirmDialog
+        isOpen={isLeaveDialogOpen}
+        title="Salir sin guardar"
+        message="Tienes cambios sin guardar. Si sales ahora, se perderán."
+        confirmLabel="Sí, salir sin guardar"
+        cancelLabel="No, seguir editando"
+        variant="danger"
+        onConfirm={() => {
+          setIsLeaveDialogOpen(false);
+          onBack();
+        }}
+        onCancel={() => setIsLeaveDialogOpen(false)}
+      />
     </div>
   );
 }

@@ -11,6 +11,7 @@ import {
 import { getPeriodRange, type Period } from "../utils/period";
 import { getPaginationRange } from "../utils/pagination";
 import { formatAmount, getPaymentLabel } from "../utils/format";
+import LoadingState from "../components/common/LoadingState";
 
 interface CustomerDetailsPageProps {
   customerId: string;
@@ -131,7 +132,7 @@ export default function CustomerDetailsPage({
   }
 
   if (isLoading) {
-    return <p>Cargando cliente...</p>;
+    return <LoadingState message="Cargando cliente..." />;
   }
 
   if (error || !customer) {
@@ -218,7 +219,7 @@ export default function CustomerDetailsPage({
         </div>
 
         {isOrdersLoading && (
-          <p className="entity-orders-loading">Cargando pedidos...</p>
+          <LoadingState variant="inline" message="Cargando pedidos..." />
         )}
 
         {totalOrders === 0 ? (

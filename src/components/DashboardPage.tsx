@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getOrders, getRecentOrders } from "../api/orders";
 import type { Order } from "../api/types";
+import LoadingState from "../components/common/LoadingState";
 
 type View = "dashboard" | "orders" | "customers" | "salesReps" | "statistics";
 
@@ -89,7 +90,7 @@ function Dashboard({ onViewChange }: DashboardProps) {
   const activeOrders = orders.filter((order) => !order.cancelled);
 
   if (isLoading) {
-    return <p>Cargando dashboard...</p>;
+    return <LoadingState message="Cargando dashboard..." />;
   }
 
   if (error) {
@@ -175,7 +176,10 @@ function Dashboard({ onViewChange }: DashboardProps) {
 
         <div className="orders-list">
           {isLoadingRecent ? (
-            <p>Cargando pedidos recientes...</p>
+            <LoadingState
+              variant="inline"
+              message="Cargando pedidos recientes..."
+            />
           ) : recentError ? (
             <p>{recentError}</p>
           ) : recentOrders.length === 0 ? (

@@ -8,8 +8,8 @@ import {
 } from "../components/pagination";
 import { getPeriodRange, type Period } from "../utils/period";
 import { getPaginationRange } from "../utils/pagination";
-import { formatAmount } from "../utils/format";
-import { formatDate } from "../utils/date";
+import { formatAmount, formatDate } from "../utils/format";
+import LoadingState from "../components/common/LoadingState";
 
 const PAGE_SIZES = [10, 20, 50, 100];
 
@@ -125,19 +125,19 @@ export default function StatisticsPage() {
         <div className="statistics-summary-item">
           <span>Pedidos</span>
           <strong>{summary.totalOrders}</strong>
-          <small>${formatAmount(summary.totalAmount)}</small>
+          <small>{formatAmount(summary.totalAmount)}</small>
         </div>
 
         <div className="statistics-summary-item statistics-summary-paid">
           <span>Pagados</span>
           <strong>{summary.paidOrders}</strong>
-          <small>${formatAmount(summary.paidAmount)}</small>
+          <small>{formatAmount(summary.paidAmount)}</small>
         </div>
 
         <div className="statistics-summary-item statistics-summary-pending">
           <span>Pendientes</span>
           <strong>{summary.pendingOrders}</strong>
-          <small>${formatAmount(summary.pendingAmount)}</small>
+          <small>{formatAmount(summary.pendingAmount)}</small>
         </div>
       </div>
 
@@ -151,7 +151,7 @@ export default function StatisticsPage() {
         </div>
 
         {isLoading && (
-          <p className="statistics-loading">Cargando estadísticas...</p>
+          <LoadingState variant="inline" message="Cargando estadísticas..." />
         )}
 
         {error && !isLoading && (
@@ -189,10 +189,10 @@ export default function StatisticsPage() {
                       </td>
                       <td>{day.orders}</td>
                       <td>
-                        <strong>${formatAmount(day.total)}</strong>
+                        <strong>{formatAmount(day.total)}</strong>
                       </td>
-                      <td>${formatAmount(day.paid)}</td>
-                      <td>${formatAmount(day.pending)}</td>
+                      <td>{formatAmount(day.paid)}</td>
+                      <td>{formatAmount(day.pending)}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -213,15 +213,15 @@ export default function StatisticsPage() {
                   <div className="statistics-card-summary">
                     <div>
                       <span>Total</span>
-                      <strong>${formatAmount(day.total)}</strong>
+                      <strong>{formatAmount(day.total)}</strong>
                     </div>
                     <div>
                       <span>Pagado</span>
-                      <strong>${formatAmount(day.paid)}</strong>
+                      <strong>{formatAmount(day.paid)}</strong>
                     </div>
                     <div>
                       <span>Pendiente</span>
-                      <strong>${formatAmount(day.pending)}</strong>
+                      <strong>{formatAmount(day.pending)}</strong>
                     </div>
                   </div>
                 </article>

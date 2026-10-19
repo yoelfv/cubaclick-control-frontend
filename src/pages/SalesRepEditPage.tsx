@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { createSalesRep, getSalesReps, updateSalesRep } from "../api/salesReps";
 import type { SalesRep } from "../api/types";
 import FormMessage from "../components/common/FormMessage";
+import LoadingState from "../components/common/LoadingState";
+import ConfirmDialog from "../components/common/ConfirmDialog";
 
 interface SalesRepEditPageProps {
   /** Si es null, estamos creando una nueva vendedora. */
@@ -26,12 +28,14 @@ export default function SalesRepEditPage({
     type: "success" | "error";
     message: string;
   } | null>(null);
+  const [isLeaveDialogOpen, setIsLeaveDialogOpen] = useState(false);
 
   const normalizedInitials = initials.trim().toUpperCase();
   const normalizedName = name.trim();
 
   const isInitialsValid = /^[A-Z]{3}$/.test(normalizedInitials);
   const isNameValid = normalizedName.length > 0;
+  const hasUserInput = name.trim().length > 0 || initials.trim().length > 0;
 
   // Si estamos editando, detectamos cambios respecto a los valores originales.
   // Si estamos creando, el botón se activa cuando los campos son válidos.
@@ -141,15 +145,30 @@ export default function SalesRepEditPage({
     }
   }
 
+  function handleBack() {
+    const shouldConfirm = isEditing ? hasChanges : hasUserInput;
+
+    if (shouldConfirm) {
+      setIsLeaveDialogOpen(true);
+    } else {
+      onBack();
+    }
+  }
+
   if (isLoading) {
-    return <p>Cargando vendedora...</p>;
+    return <LoadingState message="Cargando vendedora..." />;
   }
 
   if (isEditing && !original) {
     return (
       <div className="sales-rep-form-page">
         <div className="sales-rep-form-header">
-          <button type="button" className="back-button" onClick={onBack}>
+          <button
+            type="button"
+            className="back-button"
+            onClick={onBack}
+            disabled={isSaving}
+          >
             ← Atrás
           </button>
           <div>
@@ -174,7 +193,7 @@ export default function SalesRepEditPage({
         <button
           type="button"
           className="back-button"
-          onClick={onBack}
+          onClick={handleBack}
           disabled={isSaving}
         >
           ← Atrás
@@ -252,6 +271,19 @@ export default function SalesRepEditPage({
           </button>
         </div>
       </form>
+      <ConfirmDialog
+        isOpen={isLeaveDialogOpen}
+        title="Salir sin guardar"
+        message="Tienes cambios sin guardar. Si sales ahora, se perderán."
+        confirmLabel="Sí, salir sin guardar"
+        cancelLabel="No, seguir editando"
+        variant="danger"
+        onConfirm={() => {
+          setIsLeaveDialogOpen(false);
+          onBack();
+        }}
+        onCancel={() => setIsLeaveDialogOpen(false)}
+      />
     </div>
   );
 }

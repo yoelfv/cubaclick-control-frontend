@@ -14,6 +14,7 @@ import {
 import { getPeriodRange, type Period } from "../utils/period";
 import { getPaginationRange } from "../utils/pagination";
 import { formatAmount, getPaymentLabel } from "../utils/format";
+import LoadingState from "../components/common/LoadingState";
 
 interface SalesRepDetailsPageProps {
   salesRepId: string;
@@ -177,7 +178,7 @@ export default function SalesRepDetailsPage({
         <button className="back-button" onClick={onBack} type="button">
           ← Atrás
         </button>
-        <p>Cargando datos de la vendedora...</p>
+        <LoadingState message="Cargando datos de la vendedora..." />
       </div>
     );
   }
@@ -272,7 +273,7 @@ export default function SalesRepDetailsPage({
         {ordersError && <p className="error-message">{ordersError}</p>}
 
         {loadingOrders ? (
-          <p className="entity-orders-loading">Cargando pedidos...</p>
+          <LoadingState variant="inline" message="Cargando pedidos..." />
         ) : ordersError ? null : totalOrders === 0 ? (
           <div className="customers-empty">
             <p>

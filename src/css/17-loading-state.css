@@ -1,0 +1,54 @@
+/* =========================
+   LOADING STATE (spinner)
+   ========================= */
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 48px 24px;
+  color: #6b7280;
+}
+
+.loading-state-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid #e5e7eb;
+  border-top-color: #4338ca;
+  border-radius: 50%;
+  animation: loadingStateSpin 0.8s linear infinite;
+}
+
+@keyframes loadingStateSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-state-message {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Variante "pequeña" para cargas inline (dentro de un formulario) */
+.loading-state-inline {
+  padding: 24px 16px;
+  gap: 10px;
+}
+
+.loading-state-inline .loading-state-spinner {
+  width: 24px;
+  height: 24px;
+  border-width: 2.5px;
+}
+
+/* Reducir animación si el usuario tiene "prefers-reduced-motion" */
+@media (prefers-reduced-motion: reduce) {
+  .loading-state-spinner {
+    animation-duration: 1.8s;
+  }
+}
