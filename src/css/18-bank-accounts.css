@@ -1,0 +1,52 @@
+/* =========================
+   BANK ACCOUNT DETAILS
+   ========================= */
+
+.bank-account-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.bank-account-summary-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  padding: 12px;
+  border-radius: 8px;
+  background: #dbeafe;
+}
+
+.bank-account-summary-item > span {
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.bank-account-summary-item > strong {
+  color: #1d4ed8;
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.bank-account-summary-total {
+  background: #ecfdf5;
+}
+
+.bank-account-summary-total > strong {
+  color: #047857;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  .bank-account-summary {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .bank-account-summary-item {
+    padding: 11px 12px;
+  }
+}

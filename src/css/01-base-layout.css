@@ -11,6 +11,13 @@
   color: #1f2937;
 }
 
+button,
+a,
+[role="button"] {
+  caret-color: transparent;
+  user-select: none;
+}
+
 /* =========================
    SIDEBAR
    ========================= */
