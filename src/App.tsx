@@ -24,6 +24,9 @@ import StatisticsPage from "./pages/StatisticsPage";
 import CustomerDetailsPage from "./pages/CustomerDetailsPage";
 import SalesRepDetailsPage from "./pages/SalesRepDetailsPage";
 import CustomerEditPage from "./pages/CustomerEditPage";
+import BankAccountsPage from "./pages/BankAccountsPage";
+import BankAccountEditPage from "./pages/BankAccountEditPage";
+import BankAccountDetailsPage from "./pages/BankAccountDetailsPage";
 import ProtectedRoute from "./components/layout/ProtectedRoute";
 
 interface AppLayoutProps {
@@ -111,6 +114,35 @@ function SalesRepEditRoute() {
   );
 }
 
+function BankAccountEditRoute() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  return (
+    <BankAccountEditPage
+      bankAccountId={id ?? null}
+      onBack={() => navigate("/bank-accounts")}
+    />
+  );
+}
+
+function BankAccountDetailsRoute() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  return (
+    <BankAccountDetailsPage
+      bankAccountId={id ?? ""}
+      onBack={() => navigate("/bank-accounts")}
+      onViewDetails={(orderId) =>
+        navigate(`/orders/${orderId}`, {
+          state: { from: `/bank-accounts/${id}` },
+        })
+      }
+    />
+  );
+}
+
 function AppLayout({ onLogout }: AppLayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navigate = useNavigate();
@@ -126,6 +158,12 @@ function AppLayout({ onLogout }: AppLayoutProps) {
     }
     if (pathname === "/sales-reps" || pathname.startsWith("/sales-reps/")) {
       return "salesReps";
+    }
+    if (
+      pathname === "/bank-accounts" ||
+      pathname.startsWith("/bank-accounts/")
+    ) {
+      return "bankAccounts";
     }
     if (pathname === "/statistics") {
       return "statistics";
@@ -152,6 +190,13 @@ function AppLayout({ onLogout }: AppLayoutProps) {
       return "Detalles de la vendedora";
     if (pathname === "/sales-reps") return "Vendedoras";
 
+    // Cuentas
+    if (pathname === "/bank-accounts/new") return "Nueva cuenta";
+    if (/^\/bank-accounts\/[^/]+\/edit$/.test(pathname)) return "Editar cuenta";
+    if (/^\/bank-accounts\/[^/]+$/.test(pathname))
+      return "Detalles de la cuenta";
+    if (pathname === "/bank-accounts") return "Cuentas";
+
     // Estadísticas
     if (pathname === "/statistics") return "Estadísticas";
 
@@ -174,6 +219,9 @@ function AppLayout({ onLogout }: AppLayoutProps) {
         break;
       case "salesReps":
         navigate("/sales-reps");
+        break;
+      case "bankAccounts":
+        navigate("/bank-accounts");
         break;
       case "statistics":
         navigate("/statistics");
@@ -293,6 +341,34 @@ function AppLayout({ onLogout }: AppLayoutProps) {
             />
 
             <Route path="/sales-reps" element={<SalesRepsPage />} />
+
+            <Route
+              path="/bank-accounts/new"
+              element={
+                <ProtectedRoute requiresEdit>
+                  <BankAccountEditPage
+                    bankAccountId={null}
+                    onBack={() => navigate("/bank-accounts")}
+                  />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/bank-accounts/:id/edit"
+              element={
+                <ProtectedRoute requiresEdit>
+                  <BankAccountEditRoute />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/bank-accounts/:id"
+              element={<BankAccountDetailsRoute />}
+            />
+
+            <Route path="/bank-accounts" element={<BankAccountsPage />} />
 
             <Route path="/statistics" element={<StatisticsPage />} />
 

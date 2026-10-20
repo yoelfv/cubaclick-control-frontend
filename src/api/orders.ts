@@ -6,6 +6,8 @@ import type {
   DailyStat,
   StatisticsSummary,
   StatisticsResponse,
+  BankAccount,
+  StrapiBankAccount,
 } from "./types";
 
 function mapOrder(order: StrapiOrder): Order {
@@ -42,6 +44,13 @@ function mapOrder(order: StrapiOrder): Order {
         available: item.product.disponible,
       },
     })),
+    bankAccount: order.bankAccount
+      ? {
+          id: order.bankAccount.documentId,
+          name: order.bankAccount.name,
+          active: order.bankAccount.active,
+        }
+      : null,
   };
 }
 
@@ -53,6 +62,7 @@ export async function getOrders(
     "populate[customer]": "true",
     "populate[salesRep]": "true",
     "populate[orderItems][populate][product]": "true",
+    "populate[bankAccount]": "true",
   });
 
   if (dateFrom && dateTo) {
@@ -77,6 +87,7 @@ export async function getOrdersByCustomer(
     "populate[customer]": "true",
     "populate[salesRep]": "true",
     "populate[orderItems][populate][product]": "true",
+    "populate[bankAccount]": "true",
   });
 
   const response = await apiFetch<StrapiResponse<StrapiOrder[]>>(
@@ -168,6 +179,7 @@ export async function getOrdersBySalesRep(
     "populate[customer]": "true",
     "populate[salesRep]": "true",
     "populate[orderItems][populate][product]": "true",
+    "populate[bankAccount]": "true",
   });
 
   const response = await apiFetch<StrapiResponse<StrapiOrder[]>>(
@@ -224,6 +236,7 @@ export async function getRecentOrders(limit: number): Promise<Order[]> {
     "populate[customer]": "true",
     "populate[salesRep]": "true",
     "populate[orderItems][populate][product]": "true",
+    "populate[bankAccount]": "true",
   });
 
   const response = await apiFetch<StrapiResponse<StrapiOrder[]>>(
@@ -235,7 +248,7 @@ export async function getRecentOrders(limit: number): Promise<Order[]> {
 
 export async function getOrderById(id: string): Promise<Order> {
   const response = await apiFetch<StrapiResponse<StrapiOrder>>(
-    `/orders/${id}?populate[customer]=true&populate[salesRep]=true&populate[orderItems][populate][product]=true`,
+    `/orders/${id}?populate[customer]=true&populate[salesRep]=true&populate[orderItems][populate][product]=true&populate[bankAccount]=true`,
   );
 
   return mapOrder(response.data);
@@ -356,5 +369,59 @@ export async function getStatistics(
     summary: response.data.summary,
     daily: response.data.daily,
     pagination: response.meta.pagination,
+  };
+}
+
+export interface BankAccountOrdersResponse {
+  bankAccount: BankAccount;
+  summary: {
+    totalOrders: number;
+    totalAmount: number;
+  };
+  data: Order[];
+  pagination: CustomerOrdersPagination;
+}
+
+export async function getBankAccountOrders(
+  bankAccountId: string,
+  options: {
+    dateFrom?: string;
+    dateTo?: string;
+    page?: number;
+    pageSize?: number;
+  } = {},
+): Promise<BankAccountOrdersResponse> {
+  const params = new URLSearchParams();
+
+  if (options.dateFrom) params.set("dateFrom", options.dateFrom);
+  if (options.dateTo) params.set("dateTo", options.dateTo);
+  if (options.page !== undefined) params.set("page", String(options.page));
+  if (options.pageSize !== undefined) {
+    params.set("pageSize", String(options.pageSize));
+  }
+
+  const queryString = params.toString();
+
+  const response = await apiFetch<{
+    bankAccount: StrapiBankAccount;
+    summary: {
+      totalOrders: number;
+      totalAmount: number;
+    };
+    data: StrapiOrder[];
+    pagination: CustomerOrdersPagination;
+  }>(
+    `/orders/by-bank-account/${bankAccountId}${queryString ? `?${queryString}` : ""}`,
+  );
+
+  return {
+    bankAccount: {
+      id: response.bankAccount.documentId,
+      name: response.bankAccount.name,
+      active: response.bankAccount.active,
+    },
+    summary: response.summary,
+    data: response.data.map(mapOrder),
+    pagination: response.pagination,
   };
 }

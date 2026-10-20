@@ -37,6 +37,18 @@ export interface StrapiSalesRep {
   active: boolean;
 }
 
+export interface StrapiBankAccount {
+  documentId: string;
+  name: string;
+  active: boolean;
+}
+
+export interface BankAccount {
+  id: string;
+  name: string;
+  active: boolean;
+}
+
 export interface StrapiOrder {
   documentId: string;
   code: string;
@@ -51,6 +63,7 @@ export interface StrapiOrder {
   paymentStatus: "paid" | "pending";
   cancelled: boolean;
   orderItems: StrapiOrderItem[];
+  bankAccount?: StrapiBankAccount | null;
 }
 
 export interface OrderItem {
@@ -87,6 +100,7 @@ export interface Order {
   paymentStatus: "paid" | "pending";
   cancelled: boolean;
   orderItems: OrderItem[];
+  bankAccount: BankAccount | null;
 }
 
 export interface DailyStat {

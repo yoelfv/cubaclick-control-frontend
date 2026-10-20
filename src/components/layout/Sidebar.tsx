@@ -5,6 +5,7 @@ export type View =
   | "orderDetails"
   | "customers"
   | "salesReps"
+  | "bankAccounts"
   | "statistics";
 
 interface SidebarProps {
@@ -19,6 +20,7 @@ const menuItems: { id: View; label: string }[] = [
   { id: "orders", label: "Pedidos" },
   { id: "customers", label: "Clientes" },
   { id: "salesReps", label: "Vendedoras" },
+  { id: "bankAccounts", label: "Cuentas" },
   { id: "statistics", label: "Estadísticas" },
 ];
 
