@@ -5,6 +5,8 @@ import { getProducts } from "../api/products";
 import type { Product } from "../api/types";
 import { getCustomers } from "../api/customers";
 import type { Customer } from "../api/types";
+import { getBankAccounts } from "../api/bankAccounts";
+import type { BankAccount } from "../api/types";
 
 interface UseOrderFormDataResult {
   salesReps: SalesRep[];
@@ -18,6 +20,10 @@ interface UseOrderFormDataResult {
   customers: Customer[];
   isLoadingCustomers: boolean;
   customersError: string | null;
+
+  bankAccounts: BankAccount[];
+  isLoadingBankAccounts: boolean;
+  bankAccountsError: string | null;
 }
 
 function useOrderFormData(): UseOrderFormDataResult {
@@ -32,6 +38,12 @@ function useOrderFormData(): UseOrderFormDataResult {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [isLoadingCustomers, setIsLoadingCustomers] = useState(true);
   const [customersError, setCustomersError] = useState<string | null>(null);
+
+  const [bankAccounts, setBankAccounts] = useState<BankAccount[]>([]);
+  const [isLoadingBankAccounts, setIsLoadingBankAccounts] = useState(true);
+  const [bankAccountsError, setBankAccountsError] = useState<string | null>(
+    null,
+  );
 
   useEffect(() => {
     async function loadSalesReps() {
@@ -93,6 +105,26 @@ function useOrderFormData(): UseOrderFormDataResult {
     loadCustomers();
   }, []);
 
+  useEffect(() => {
+    async function loadBankAccounts() {
+      try {
+        setIsLoadingBankAccounts(true);
+        setBankAccountsError(null);
+
+        const data = await getBankAccounts();
+
+        setBankAccounts(data.filter((account) => account.active));
+      } catch (err) {
+        console.error("Error al cargar cuentas:", err);
+        setBankAccountsError("No fue posible cargar las cuentas.");
+      } finally {
+        setIsLoadingBankAccounts(false);
+      }
+    }
+
+    loadBankAccounts();
+  }, []);
+
   return {
     salesReps,
     isLoadingSalesReps,
@@ -103,6 +135,9 @@ function useOrderFormData(): UseOrderFormDataResult {
     customers,
     isLoadingCustomers,
     customersError,
+    bankAccounts,
+    isLoadingBankAccounts,
+    bankAccountsError,
   };
 }
 

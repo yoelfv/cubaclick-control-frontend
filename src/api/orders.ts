@@ -33,16 +33,23 @@ function mapOrder(order: StrapiOrder): Order {
     total: order.total,
     paymentStatus: order.paymentStatus,
     cancelled: order.cancelled,
-    orderItems: order.orderItems.map((item) => ({
+    orderItems: (order.orderItems ?? []).map((item) => ({
       id: item.documentId,
       quantity: item.quantity,
       unitPrice: item.unitPrice,
-      product: {
-        id: item.product.documentId,
-        name: item.product.nombre,
-        price: item.product.precio,
-        available: item.product.disponible,
-      },
+      product: item.product
+        ? {
+            id: item.product.documentId,
+            name: item.product.nombre,
+            price: item.product.precio,
+            available: item.product.disponible,
+          }
+        : {
+            id: "",
+            name: "Producto desconocido",
+            price: 0,
+            available: false,
+          },
     })),
     bankAccount: order.bankAccount
       ? {
@@ -264,7 +271,7 @@ export interface UpdateOrderInput {
   recipientName: string;
   recipientPhone: string;
   remittance: number;
-  paymentStatus: "paid" | "pending";
+  bankAccount?: string | null;
   items: UpdateOrderItemInput[];
 }
 
@@ -301,7 +308,7 @@ export interface CreateOrderInput {
   recipientName: string;
   recipientPhone: string;
   remittance: number;
-  paymentStatus: "paid" | "pending";
+  bankAccount?: string | null;
   items: CreateOrderItemInput[];
 }
 

@@ -214,6 +214,10 @@ function OrderDetailsPage({ orderId, onBack }: OrderDetailsPageProps) {
                 {order.paymentStatus === "paid" ? "Pagado" : "Pendiente"}
               </span>
             </div>
+            <div className="order-details-payment-item">
+              <span>Cuenta de pago</span>
+              <strong>{order.bankAccount?.name ?? "Sin asignar"}</strong>
+            </div>
           </div>
         </section>
       </div>

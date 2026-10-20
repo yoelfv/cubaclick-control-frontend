@@ -11,7 +11,7 @@ import type { OrderItemForm } from "../types/orderForm";
 import OrderItemsEditor from "../components/orders/OrderItemsEditor";
 import PersonFields from "../components/orders/PersonFields";
 import CustomerFields from "../components/orders/CustomerFields";
-import PaymentStatusField from "../components/orders/PaymentStatusField";
+import BankAccountField from "../components/orders/BankAccountField";
 import RemittanceField from "../components/orders/RemittanceField";
 import OrderSummary from "../components/orders/OrderSummary";
 import OrderBasicInfo from "../components/orders/OrderBasicInfo";
@@ -43,9 +43,7 @@ function OrderFormPage({ onBack, orderId }: OrderFormPageProps) {
   const [customerPhone, setCustomerPhone] = useState("");
   const [recipientName, setRecipientName] = useState("");
   const [recipientPhone, setRecipientPhone] = useState("");
-  const [paymentStatus, setPaymentStatus] = useState<"pending" | "paid">(
-    "pending",
-  );
+  const [bankAccountId, setBankAccountId] = useState<string | null>(null);
   const [formMessage, setFormMessage] = useState<{
     type: "success" | "error";
     message: string;
@@ -67,10 +65,18 @@ function OrderFormPage({ onBack, orderId }: OrderFormPageProps) {
     customers,
     isLoadingCustomers,
     customersError,
+    bankAccounts,
+    isLoadingBankAccounts,
+    bankAccountsError,
   } = useOrderFormData();
 
   const productsTotal = calculateProductsTotal(orderItems, products);
   const orderTotal = calculateOrderTotal(productsTotal, remittance);
+
+  const [originalBankAccount, setOriginalBankAccount] = useState<{
+    id: string;
+    name: string;
+  } | null>(null);
 
   useEffect(() => {
     if (!orderId) {
@@ -95,7 +101,12 @@ function OrderFormPage({ onBack, orderId }: OrderFormPageProps) {
 
         setRemittance(order.remittance > 0 ? String(order.remittance) : "");
 
-        setPaymentStatus(order.paymentStatus);
+        setBankAccountId(order.bankAccount?.id ?? null);
+        setOriginalBankAccount(
+          order.bankAccount
+            ? { id: order.bankAccount.id, name: order.bankAccount.name }
+            : null,
+        );
 
         setOrderItems(
           order.orderItems.map((item) => ({
@@ -171,7 +182,7 @@ function OrderFormPage({ onBack, orderId }: OrderFormPageProps) {
         recipientName: recipientName.trim(),
         recipientPhone: recipientPhone.trim(),
         remittance: Number(remittance || 0),
-        paymentStatus,
+        bankAccount: bankAccountId,
         items,
       };
 
@@ -187,7 +198,7 @@ function OrderFormPage({ onBack, orderId }: OrderFormPageProps) {
           recipientName: recipientName.trim(),
           recipientPhone: recipientPhone.trim(),
           remittance: Number(remittance || 0),
-          paymentStatus,
+          bankAccount: bankAccountId,
           items,
         });
 
@@ -351,12 +362,16 @@ function OrderFormPage({ onBack, orderId }: OrderFormPageProps) {
               }}
             />
 
-            <PaymentStatusField
-              value={paymentStatus}
+            <BankAccountField
+              value={bankAccountId}
               onChange={(value) => {
-                setPaymentStatus(value);
+                setBankAccountId(value);
                 setIsDirty(true);
               }}
+              bankAccounts={bankAccounts}
+              isLoading={isLoadingBankAccounts}
+              error={bankAccountsError}
+              inactiveFallback={originalBankAccount}
             />
           </div>
 
