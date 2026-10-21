@@ -43,12 +43,14 @@ function mapOrder(order: StrapiOrder): Order {
             name: item.product.nombre,
             price: item.product.precio,
             available: item.product.disponible,
+            categoria: null,
           }
         : {
             id: "",
             name: "Producto desconocido",
             price: 0,
             available: false,
+            categoria: null,
           },
     })),
     bankAccount: order.bankAccount
