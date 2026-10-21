@@ -61,6 +61,22 @@ function OrderItemsEditor({
               ? unitPrice * Number(orderItem.quantity)
               : 0;
 
+          // Agrupar productos por categoría
+          const grouped: Record<string, Product[]> = {};
+          for (const product of products) {
+            if (product.categoria) {
+              if (!grouped[product.categoria.name]) {
+                grouped[product.categoria.name] = [];
+              }
+              grouped[product.categoria.name].push(product);
+            }
+          }
+
+          // Ordenar categorías alfabéticamente
+          const sortedCategories = Object.keys(grouped).sort((a, b) =>
+            a.localeCompare(b, "es"),
+          );
+
           return (
             <div className="order-item-row" key={index}>
               <label className="order-form-field order-item-product">
@@ -83,17 +99,21 @@ function OrderItemsEditor({
 
                   {!isLoadingProducts &&
                     !productsError &&
-                    products
-                      .filter(
-                        (product) =>
-                          !selectedProductIds.includes(product.id) ||
-                          product.id === orderItem.productId,
-                      )
-                      .map((product) => (
-                        <option key={product.id} value={product.id}>
-                          {product.name}
-                        </option>
-                      ))}
+                    sortedCategories.map((categoryName) => (
+                      <optgroup key={categoryName} label={categoryName}>
+                        {grouped[categoryName]
+                          .filter(
+                            (product) =>
+                              !selectedProductIds.includes(product.id) ||
+                              product.id === orderItem.productId,
+                          )
+                          .map((product) => (
+                            <option key={product.id} value={product.id}>
+                              {product.name}
+                            </option>
+                          ))}
+                      </optgroup>
+                    ))}
                 </select>
 
                 {productsError && (

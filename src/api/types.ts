@@ -3,11 +3,23 @@ export interface StrapiResponse<T> {
   meta?: Record<string, unknown>;
 }
 
+export interface StrapiCategoria {
+  documentId: string;
+  nombre: string;
+  slug?: string;
+}
+
+export interface Categoria {
+  id: string;
+  name: string;
+}
+
 export interface StrapiProduct {
   documentId: string;
   nombre: string;
   precio: number;
   disponible: boolean;
+  categoria?: StrapiCategoria | null;
 }
 
 export interface Product {
@@ -15,6 +27,7 @@ export interface Product {
   name: string;
   price: number;
   available: boolean;
+  categoria: Categoria | null;
 }
 
 export interface StrapiOrderItem {
