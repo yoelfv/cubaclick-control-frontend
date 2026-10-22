@@ -5,7 +5,11 @@ import {
   updateOrder,
   cancelOrder,
 } from "../api/orders";
-import { findCustomer, createCustomer } from "../api/customers";
+import {
+  findCustomer,
+  findCustomerNormalized,
+  createCustomer,
+} from "../api/customers";
 import useOrderFormData from "../hooks/useOrderFormData";
 import type { OrderItemForm } from "../types/orderForm";
 import OrderItemsEditor from "../components/orders/OrderItemsEditor";
@@ -162,6 +166,14 @@ function OrderFormPage({ onBack, orderId }: OrderFormPageProps) {
         normalizedCustomerName,
         normalizedCustomerPhone,
       );
+
+      if (!customer) {
+        // Segundo intento con normalización (case-insensitive + sin espacios)
+        customer = await findCustomerNormalized(
+          normalizedCustomerName,
+          normalizedCustomerPhone,
+        );
+      }
 
       if (!customer) {
         customer = await createCustomer(

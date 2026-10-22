@@ -13,13 +13,42 @@ export async function findCustomer(
   name: string,
   phone: string,
 ): Promise<Customer | null> {
+  const normalizedName = name.trim();
+  const normalizedPhone = phone.trim();
+
   const response = await apiFetch<StrapiResponse<StrapiCustomer[]>>(
     `/customers?filters[name][$eq]=${encodeURIComponent(
-      name,
-    )}&filters[phone][$eq]=${encodeURIComponent(phone)}&pagination[pageSize]=1`,
+      normalizedName,
+    )}&filters[phone][$eq]=${encodeURIComponent(normalizedPhone)}&pagination[pageSize]=1`,
   );
 
   return response.data.length > 0 ? mapCustomer(response.data[0]) : null;
+}
+
+/**
+ * Búsqueda normalizada (case-insensitive + sin espacios en phone).
+ * Se usa como fallback cuando `findCustomer` no encuentra nada,
+ * para evitar crear duplicados por diferencias de mayúsculas o espacios.
+ */
+export async function findCustomerNormalized(
+  name: string,
+  phone: string,
+): Promise<Customer | null> {
+  const normalizedName = name.trim().toLowerCase();
+  const normalizedPhone = phone.trim().replace(/\s+/g, "");
+
+  const response = await apiFetch<StrapiResponse<StrapiCustomer[]>>(
+    `/customers?pagination[pageSize]=1000`,
+  );
+
+  const found = response.data.find((c) => {
+    const cName = c.name.trim().toLowerCase();
+    const cPhone = c.phone.trim().replace(/\s+/g, "");
+
+    return cName === normalizedName && cPhone === normalizedPhone;
+  });
+
+  return found ? mapCustomer(found) : null;
 }
 
 export async function createCustomer(
