@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getOrderById } from "../api/orders";
 import type { Order } from "../api/types";
 import LoadingState from "../components/common/LoadingState";
+import { formatAmount } from "../utils/format";
 
 interface OrderDetailsPageProps {
   orderId: string;
@@ -158,12 +159,12 @@ function OrderDetailsPage({ orderId, onBack }: OrderDetailsPageProps) {
 
                   <div className="order-details-product-value">
                     <span>Precio</span>
-                    <strong>${item.unitPrice.toFixed(2)}</strong>
+                    <strong>{formatAmount(item.unitPrice)}</strong>
                   </div>
 
                   <div className="order-details-product-value">
                     <span>Subtotal</span>
-                    <strong>${subtotal.toFixed(2)}</strong>
+                    <strong>{formatAmount(subtotal)}</strong>
                   </div>
                 </div>
               );
@@ -199,7 +200,7 @@ function OrderDetailsPage({ orderId, onBack }: OrderDetailsPageProps) {
 
             <div className="order-details-payment-item">
               <span>Total del pedido</span>
-              <strong>${order.total.toFixed(2)}</strong>
+              <strong>{formatAmount(order.total)}</strong>
             </div>
 
             <div className="order-details-payment-item">

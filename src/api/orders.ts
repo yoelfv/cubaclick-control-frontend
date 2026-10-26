@@ -41,7 +41,7 @@ function mapOrder(order: StrapiOrder): Order {
         ? {
             id: item.product.documentId,
             name: item.product.nombre,
-            price: item.product.precio,
+            price: Number(item.product.precio),
             available: item.product.disponible,
             categoria: null,
           }

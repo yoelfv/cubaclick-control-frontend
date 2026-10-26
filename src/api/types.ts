@@ -17,7 +17,7 @@ export interface Categoria {
 export interface StrapiProduct {
   documentId: string;
   nombre: string;
-  precio: number;
+  precio: string;
   disponible: boolean;
   categoria?: StrapiCategoria | null;
 }
