@@ -174,13 +174,12 @@ function OrderDetailsPage({ orderId, onBack }: OrderDetailsPageProps) {
           <div className="order-details-products-total">
             <span>Total productos</span>
             <strong>
-              $
-              {order.orderItems
-                .reduce(
+              {formatAmount(
+                order.orderItems.reduce(
                   (total, item) => total + item.unitPrice * item.quantity,
                   0,
-                )
-                .toFixed(2)}
+                ),
+              )}
             </strong>
           </div>
         </section>
@@ -194,7 +193,7 @@ function OrderDetailsPage({ orderId, onBack }: OrderDetailsPageProps) {
             <div className="order-details-payment-item">
               <span>Remesa</span>
               <strong>
-                {order.remittance > 0 ? `$${order.remittance.toFixed(2)}` : "—"}
+                {order.remittance > 0 ? formatAmount(order.remittance) : "—"}
               </strong>
             </div>
 

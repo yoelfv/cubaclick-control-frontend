@@ -1,5 +1,6 @@
 import type { Product } from "../../api/types";
 import type { OrderItemForm } from "../../types/orderForm";
+import { formatAmount } from "../../utils/format";
 
 interface OrderItemsEditorProps {
   orderItems: OrderItemForm[];
@@ -145,14 +146,12 @@ function OrderItemsEditor({
 
               <div className="order-item-price">
                 <span>Precio</span>
-                <strong>
-                  ${selectedProduct ? unitPrice.toFixed(2) : "0.00"}
-                </strong>
+                <strong>{formatAmount(selectedProduct ? unitPrice : 0)}</strong>
               </div>
 
               <div className="order-item-subtotal">
                 <span>Subtotal</span>
-                <strong>${subtotal.toFixed(2)}</strong>
+                <strong>{formatAmount(subtotal)}</strong>
               </div>
 
               <button
