@@ -7,6 +7,7 @@ function mapProduct(product: StrapiProduct): Product {
     name: product.nombre,
     price: Number(product.precio),
     available: product.disponible,
+    saleUnit: product.saleUnit ?? "unit",
     categoria: product.categoria
       ? {
           id: product.categoria.documentId,

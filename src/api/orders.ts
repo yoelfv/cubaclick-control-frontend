@@ -43,6 +43,7 @@ function mapOrder(order: StrapiOrder): Order {
             name: item.product.nombre,
             price: Number(item.product.precio),
             available: item.product.disponible,
+            saleUnit: item.product.saleUnit ?? "unit", // ← AÑADIR
             categoria: null,
           }
         : {
@@ -50,6 +51,7 @@ function mapOrder(order: StrapiOrder): Order {
             name: "Producto desconocido",
             price: 0,
             available: false,
+            saleUnit: "unit", // ← AÑADIR
             categoria: null,
           },
     })),

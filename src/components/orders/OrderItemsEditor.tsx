@@ -111,6 +111,7 @@ function OrderItemsEditor({
                           .map((product) => (
                             <option key={product.id} value={product.id}>
                               {product.name}
+                              {product.saleUnit === "weight" ? " (libras)" : ""}
                             </option>
                           ))}
                       </optgroup>
@@ -125,20 +126,29 @@ function OrderItemsEditor({
               </label>
 
               <label className="order-form-field order-item-quantity">
-                <span>Cantidad</span>
+                <span>
+                  Cantidad
+                  {selectedProduct?.saleUnit === "weight" ? " (libras)" : ""}
+                </span>
 
                 <input
                   type="number"
-                  min="1"
-                  step="1"
+                  min={selectedProduct?.saleUnit === "weight" ? "0.01" : "1"}
+                  step={selectedProduct?.saleUnit === "weight" ? "0.01" : "1"}
                   value={orderItem.quantity}
                   onChange={(event) => {
                     const value = event.target.value;
 
-                    if (value === "" || /^\d+$/.test(value)) {
-                      updateItem(index, {
-                        quantity: value,
-                      });
+                    if (selectedProduct?.saleUnit === "weight") {
+                      // Permitir decimales con hasta 2 decimales
+                      if (value === "" || /^\d+(\.\d{0,2})?$/.test(value)) {
+                        updateItem(index, { quantity: value });
+                      }
+                    } else {
+                      // Solo enteros
+                      if (value === "" || /^\d+$/.test(value)) {
+                        updateItem(index, { quantity: value });
+                      }
                     }
                   }}
                 />
@@ -147,6 +157,9 @@ function OrderItemsEditor({
               <div className="order-item-price">
                 <span>Precio</span>
                 <strong>{formatAmount(selectedProduct ? unitPrice : 0)}</strong>
+                {selectedProduct?.saleUnit === "weight" && (
+                  <small className="order-item-price-unit">/ lb</small>
+                )}
               </div>
 
               <div className="order-item-subtotal">

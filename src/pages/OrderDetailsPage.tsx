@@ -154,7 +154,10 @@ function OrderDetailsPage({ orderId, onBack }: OrderDetailsPageProps) {
 
                   <div className="order-details-product-value">
                     <span>Cantidad</span>
-                    <strong>{item.quantity}</strong>
+                    <strong>
+                      {item.quantity}
+                      {item.product.saleUnit === "weight" ? " lb" : ""}
+                    </strong>
                   </div>
 
                   <div className="order-details-product-value">

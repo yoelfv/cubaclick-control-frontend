@@ -19,6 +19,7 @@ export interface StrapiProduct {
   nombre: string;
   precio: string;
   disponible: boolean;
+  saleUnit: "unit" | "weight";
   categoria?: StrapiCategoria | null;
 }
 
@@ -27,6 +28,7 @@ export interface Product {
   name: string;
   price: number;
   available: boolean;
+  saleUnit: "unit" | "weight";
   categoria: Categoria | null;
 }
 
