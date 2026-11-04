@@ -1,75 +1,100 @@
-# React + TypeScript + Vite
+Cubaclick Control – Business Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A business management application built with React, TypeScript, Vite, and Strapi. The system provides a centralized interface for managing orders, customers, sales representatives, bank accounts, and business statistics.
 
-Currently, two official plugins are available:
+Project Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Cubaclick Control is an administrative application developed to support the daily operations of an online store.
 
-## React Compiler
+It connects to a centralized Strapi backend through a REST API, sharing the same backend and database with a separate e-commerce frontend.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The application brings together essential business information in one place, helping organize commercial records and monitor order-related activities.
 
-## Expanding the ESLint configuration
+Key Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+    Dashboard: Provides an overview of relevant business information and operational indicators.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+    Order Management: Displays and manages customer orders and their payment status.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+    Customer Management: Organizes customer records and provides access to their order history.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+    Sales Representative Management: Maintains sales representative records and displays their associated orders.
 
-```
+    Bank Account Management: Organizes information about the bank accounts used by the business and tracks which orders have been paid into each account.
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+    Statistics: Provides access to business statistics and performance information.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Technology Stack
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Frontend
 
-```
+    React
+
+    TypeScript
+
+    Vite
+
+    HTML5 and CSS3
+
+Backend Integration
+
+    Strapi
+
+    REST API
+
+    Shared relational database
+
+Development Tools
+
+    Node.js
+
+    npm
+
+    Git and GitHub
+
+Architecture
+
+The application uses a component-based frontend architecture and communicates with a centralized Strapi backend through REST API endpoints.
+
+The same backend also powers a separate online store developed with Astro, React, and TypeScript.
+
+This shared architecture allows both applications to work with centralized business data.
+
+Related repository:
+
+tienda-backend – Shared Strapi Backend
+
+Getting Started
+
+Prerequisites
+
+    Node.js
+
+    npm
+
+    Access to a running Strapi backend
+
+Installation
+
+Clone the repository:
+
+git clone https://github.com/yoelfv/cubaclick-control-frontend.git
+cd cubaclick-control-frontend
+
+Install dependencies:
+
+npm install
+
+Configure the application to connect to the appropriate Strapi API using the required environment variables.
+
+Start the development server:
+
+npm run dev
+
+Build the production version:
+
+npm run build
+
+Developer
+
+Designed and developed as a business management application, demonstrating practical experience in frontend development, TypeScript, REST API integration, centralized data management, and business information systems.
