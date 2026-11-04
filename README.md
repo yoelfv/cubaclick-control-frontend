@@ -1,6 +1,8 @@
 Cubaclick Control – Business Management System
 
-A business management application built with React, TypeScript, Vite, and Strapi. The system provides a centralized interface for managing orders, customers, sales representatives, bank accounts, and business statistics.
+A business management application built with React, TypeScript, Vite, and Strapi.
+The system provides a centralized interface for managing orders, customers, sales representatives,
+bank accounts, and business statistics.
 
 Project Overview
 
@@ -18,9 +20,11 @@ Key Features
 
     Customer Management: Organizes customer records and provides access to their order history.
 
-    Sales Representative Management: Maintains sales representative records and displays their associated orders.
+    Sales Representative Management: Maintains sales representative records and displays their
+    associated orders.
 
-    Bank Account Management: Organizes information about the bank accounts used by the business and tracks which orders have been paid into each account.
+    Bank Account Management: Organizes information about the bank accounts used by the business
+    and tracks which orders have been paid into each account.
 
     Statistics: Provides access to business statistics and performance information.
 
@@ -54,7 +58,8 @@ Development Tools
 
 Architecture
 
-The application uses a component-based frontend architecture and communicates with a centralized Strapi backend through REST API endpoints.
+The application uses a component-based frontend architecture and communicates with a centralized
+Strapi backend through REST API endpoints.
 
 The same backend also powers a separate online store developed with Astro, React, and TypeScript.
 
@@ -85,7 +90,8 @@ Install dependencies:
 
 npm install
 
-Configure the application to connect to the appropriate Strapi API using the required environment variables.
+Configure the application to connect to the appropriate Strapi API using the required
+environment variables.
 
 Start the development server:
 
@@ -97,4 +103,6 @@ npm run build
 
 Developer
 
-Designed and developed as a business management application, demonstrating practical experience in frontend development, TypeScript, REST API integration, centralized data management, and business information systems.
+Designed and developed as a business management application, demonstrating practical
+experience in frontend development, TypeScript, REST API integration, centralized data
+management, and business information systems.
